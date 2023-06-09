@@ -2,7 +2,69 @@
 
 \subsection{Informationstheorie}
 
+Bit: binary unit $\rightarrow$ Einheit für Information
+
+bit: binary digit $\rightarrow$ bit als binäres Symbol
+
+\textbf{Informationgehalt} 
+
+je unwahrscheinlicher ein Symbol $x$ auftritt, desto mehr Information enhält es:
+
+$\displaystyle{
+    I(x) = ld\left( \frac{1}{P(x)} \right) -ld(P(x))
+}$
+
+$P$: Wahrscheinlichkeit eines Symbols\\
+$I$: Informationsgehalt $[I] = Bit$
+
+\textbf{Entropie}
+
+gemittelter Informationsgehalt einer Quelle $X$:
+
+$\displaystyle{
+    H(X) = \sum_{i} P(x_i) \cdot I(x_i) = - \sum_{i} P(x_i) \cdot ld(P(x_i))
+}$
+
+$H$: Entropie $[H] = Bit/Symbol$
+
+\textbf{Entscheidungsgehalt}
+
+Entropie wird maximal, wenn alle Symbole gleichwahrscheinlich sind
+$\rightarrow$ Entscheidungsgehalt
+
+$\displaystyle{
+    H_0 = ld(N)
+}$
+
+$H_0$: Entscheidungsgehalt $[H_0] = Bit/Symbol$\\
+$N$: Anzahl der Symbole eines Alphabets
+
+\textbf{Redundanz}
+
+$\displaystyle{
+    R = H_0 - H
+}$
+
+$\displaystyle{
+    r = \frac{R}{H_0}
+}$
+
+$R$: Redundanz $[R] = Bit/Symbol$\\
+$r$: relative Redundanz
+
+%%//TODO: mittlere Laenge Code
+
 \subsection{Quellcodierung}
+
+\subsubsection{Huffman-Code}
+
+\subsubsection{Arithmetische Codierung}
+
+\subsection{Kanalmodell}
+
+\subsection{Kanalkapazität}
+
+\subsection{Shannon-Theoreme}
 
 \section{Blockcodes}
 
@@ -163,7 +225,7 @@ $\hookrightarrow$ Aufstellen der Schlüsselgleichungen
 
 \includegraphics[width=8cm]{img/decod_rs.PNG}
 
-\textbf{Schlüsselgleichungen}
+\subsubsection{Schlüsselgleichungen}
 
 beschreiben, dass Faltung von $C(x)$ und $F(x)$ Null sind (Achtung: zyklische Faltung, siehe \autoref{sec:galois})
 
@@ -179,7 +241,21 @@ $\displaystyle{
 da Anzahl der Fehler ($t$) unbekannt sind, muss ausprobiert werden, welche minimale Anzahl an Fehlern
 die Schlüsselgleichungen erfüllt
 
+%%// TODO: Schlüsselgleichungen aufstellen
 
+\textbf{Berlekamp-Massey-Algorithmus}
+
+effizientes Verfahren zur Lösung der Schlüsselgleichungen
+
+%%//TODO
+
+\textbf{Euklidscher Algorithmus}
+
+Suche des ggT zweier Zahlen
+
+Kann zur Lösung der Schlüsselgleichungen verwendet werden
+
+%%// TODO
 
 \subsection{Horner-Schema}
 
