@@ -1,0 +1,69 @@
+\documentclass[twocolumn]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[german=guillemets]{csquotes}		%% Zitieren
+\usepackage{amsmath}							%% Mathe
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\usepackage[hidelinks]{hyperref}				%% Ausblenden der Boxen um Referenzen
+\usepackage{lmodern}							%% Schriftart
+%%\usepackage[headsepline]{scrlayer-scrpage}		%% Individuelle Kopf- und Fußzeile
+\usepackage[absolute]{textpos}
+\usepackage{pdfpages}
+\usepackage[a4paper, left=2cm, right=2cm, top=3cm, bottom=3cm]{geometry} %% Aändern der Seitenränder
+\usepackage{trfsigns}
+
+
+\KOMAoptions
+{
+	fontsize=9pt,								%% Schriftgröße
+	parskip=half,								%% Absatz haben Einzug(off) oder Abstand(full, half)
+	headings=normal								%% Größe der Überschriften
+}
+
+
+%% Codeumgebung settings
+% color
+\definecolor{codegray}{rgb}{0.9, 0.9, 0.9}
+
+%%Listing setup
+\lstset{
+	backgroundcolor=\color{codegray},
+	captionpos=b,
+	breaklines=true,
+}
+
+\lstdefinestyle{customc}{
+	language=C,
+	breaklines=true,
+	frame=L,
+	basicstyle=\footnotesize\ttfamily,
+	commentstyle=\itshape\color{green!60!black},
+	keywordstyle=\bfseries\color{blue},
+	identifierstyle=\color{purple!80!black},
+	stringstyle=\color{red},
+	xleftmargin=\parindent,
+	showstringspaces=false,
+	morekeywords={uint8_t, int8_t, uint32_t},
+}
+
+
+
+%% Quellenverzeichnis (Biblatex mit biber)
+\usepackage{csquotes}
+\usepackage[backend=biber, style=ieee]{biblatex}
+\addbibresource{content/bib/lit.bib}
+
+
+
+%%% Einstellungen für Kopf- und Fußzeile
+%\automark[section]{section}
+%\clearpairofpagestyles
+%\ihead{\headmark}
+%\chead{}
+%\ohead{\pagemark}

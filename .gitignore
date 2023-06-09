@@ -1,0 +1,7 @@
+## Latex build files
+*.aux
+*.bcf
+*.log
+*.out
+*.run.xml
+*.toc

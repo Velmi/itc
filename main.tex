@@ -1,0 +1,53 @@
+%% Setup und Metadaten einfügen
+\include{inc/setup}						%% Include setup file
+\include{inc/meta}						%% Include meta data
+
+
+
+%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%
+	\pagenumbering{Roman}
+	
+	%% Titelseite & Inhaltsverzeichnis
+	\begin{titlepage}
+		
+		\begingroup
+			\centering
+            \fontsize{18pt}{22pt}\selectfont
+            {\bfseries \titel\par}
+        \endgroup		
+		
+		\begingroup
+			\centering
+            \fontsize{12pt}{22pt}\selectfont
+            {\bfseries \autor\par}
+        \endgroup
+		
+		\tableofcontents
+	\end{titlepage}
+	
+	\newpage
+	
+	\clearpage
+	
+	\fontsize{9pt}{9pt}\selectfont
+	
+	\pagenumbering{arabic}
+	
+	%% Abschnitte
+	
+	\input{sources/summary}
+	\newpage
+	\appendix
+	\input{sources/appendix}
+	
+	\cleardoublepage
+	
+	%% Quellenverzeichnis
+	%%\printbibliography[title=Quellenverzeichnis]
+	%%\addcontentsline{toc}{section}{Quellenverzeichnis}
+
+%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%
