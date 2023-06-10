@@ -58,7 +58,25 @@ $r$: relative Redundanz
 
 \subsubsection{Huffman-Code}
 
+ist \textbf{Präfixcode:} ein Codewort ist niemals Anfang eines anderen Codewortes
+
+Codebaum aufbauen:
+\begin{enumerate}
+    \item Ordne die Symbole nach Auftrittswahrscheinlichkeit
+    \item Fasse Symbole mit niedrigster Wahrscheinlichkeit zu einem Symbol zusammen und addiere die Wahrscheinlichkeiten
+    \item Wiederhole bis nur ein Symbol übrig bleibt
+\end{enumerate}
+
+Beschrifte die Pfade mit 1 und 0\\
+$\rightarrow$ Codewort ergibt sich, indem man von Wurzel bis zum Blatt geht
+
+%%// TODO: beispiel rein
+
 \subsubsection{Arithmetische Codierung}
+
+Codierung eines Wortes (oder Textes) durch Zahl
+
+Endezeichen notwendig, da keine natürliche Terminierung des Codes
 
 \subsection{Kanalmodell}
 
@@ -68,18 +86,86 @@ $r$: relative Redundanz
 
 \section{Blockcodes}
 
-\section{Galois-Felder}
-\label{sec:galois}
-
-%% addiitve inverse
-%% multiplikative inverse
-%% modulare inverse (= multiplikative inverse mod n)
-
-\section{Reed-Solomon-Code}
+Code beschrieben durch $C(n, k, d)$
 
 $n$: Länge Codewort\\
 $k$: Länge Informationswort\\
 $d$: Mindestabstand
+
+\section{Galois-Felder}
+\label{sec:galois}
+
+\subsection{Algebraische Strukturen}
+
+\includegraphics[width=8cm]{img/algebraische_strukturen.PNG}
+
+\textbf{Menge}
+
+Verbund von Elementen, welche keine Operationen beinhalten (Möbel können eine Menge sein, es kann aber nicht Tisch + Stuhl gerechnet werden)
+
+\textbf{Halbgruppe}
+
+Menge $A$ mit Verknüpfung \frqq +\flqq{} ist eine Halbgruppe, wenn
+\begin{itemize}
+    \item Abgeschlossenheit (+ zweier Elemente von $A$ ergibt wieder ein Element von $A$)
+    \item Assoziativität (Reihenfolge der Operation mit + spielt keine Rolle, $a + (b + c) = (a + b) + c$)
+    \item Existenz eines neutralen Elements (Element $a$ + neutrales Element $n$ ergibt wieder Element $a$)
+\end{itemize}
+
+\textbf{Gruppe}
+
+Halbgruppe plus
+\begin{itemize}
+    \item Existenz eines additiven inversen Elements ($a + b = n$)
+\end{itemize}
+
+\textbf{Abelsche oder kommutative Gruppe}
+
+Gruppe plus
+\begin{itemize}
+    \item Kommutativität (Reihenfolge der Operanden spielt keine Rolle, $a + b = b + a$)
+\end{itemize}
+
+\textbf{Ring}
+
+abelsche Gruppe plus
+\begin{itemize}
+    \item Abgeschlossenheit bezüglich \frqq $\cdot$\flqq
+    \item Assoziativität bezüglich \frqq $\cdot$\flqq
+    \item Distributivität ($a \cdot (b + c) = a \cdot b + a \cdot c$)
+\end{itemize}
+
+\textbf{Körper}
+
+Ring plus
+\begin{itemize}
+    \item Kommutativität bezüglich \frqq $\cdot$\flqq ($a \cdot b = b \cdot a$)
+    \item Neutrales Element bezüglich \frqq $\cdot$\flqq
+    \item Inverses Element bezüglich \frqq $\cdot$\flqq für jedes Element
+\end{itemize}
+
+\textbf{Primkörper/Galois-Feld}
+
+Körper, indem Addition und Multiplikation $\mod p$ gerechnet wird ($p$ muss dabei eine Primzahl sein)\\
+$\hookrightarrow GF(p)$
+
+\subsection{Eigenschaften Galois-Felder}
+
+\textbf{Primitives Element}
+
+Element $\alpha$, welches durch ihre $p-1$ Potenzen alle Elemente (außer $0$) des $GF(p)$ erzeugt
+
+Bsp. $GF(5), \alpha = 2$:
+
+$2^0 = 1 \mod 5 = 1$\\
+$2^1 = 2 \mod 5 = 2$\\
+$2^2 = 4 \mod 5 = 4$\\
+$ 2^3 = 8 \mod 5 = 3$
+
+ab hier zykische Wiederholung:\\
+$2^4 = 16 \mod 5 = 1$
+
+\section{Reed-Solomon-Code}
 
 \subsection{Wunsch und Idee}
 
@@ -232,7 +318,7 @@ beschreiben, dass Faltung von $C(x)$ und $F(x)$ Null sind (Achtung: zyklische Fa
 $F_0$ bis $F_{n-k-1}$ (bzw. $F_{d-2}$) sind bekannt, da diese direkt an den Syndromstellen
 von $R(x)$ stehen
 
-Alle $C$-Koeff. sind unbekannt, außer $C_{t-1}$, dieser wird zu $1$ gesetzt\\
+Alle $C$-Koeff. sind unbekannt, außer $C_{t-1}$, dieser wird zu $1$ gesetzt
 
 $\displaystyle{
     C_{t-1} = 1
