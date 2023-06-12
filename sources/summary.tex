@@ -165,6 +165,8 @@ $ 2^3 = 8 \mod 5 = 3$
 ab hier zykische Wiederholung:\\
 $2^4 = 16 \mod 5 = 1$
 
+%%//TODO: DFT, zyklische Faltung
+
 \section{Reed-Solomon-Code}
 
 \subsection{Wunsch und Idee}
@@ -227,7 +229,9 @@ $\displaystyle{
 
 mit Generatorpolynom
 
-$g(x) = \prod_{i=k}^{n-1} (x - \alpha^{-i})$
+$\displaystyle{
+    g(x) = \prod_{i=k}^{n-1} \left(x - \alpha^{-i}\right)
+}$
 
 $g(x)$: Generatorpolynom\\
 $i(x)$: Informationspolynom
@@ -247,20 +251,20 @@ $\displaystyle{
     \frac{a^*(x)}{g(x)} = b(x) + \frac{rest(a^*(x))}{g(x)}
 }$\\
 $\displaystyle{
-    \rightarrow \frac{a^*(x) - rest(a^*(x))}{g(x)} = b(x)
+    \rightarrow \frac{a^*(x) - rest\left(a^*(x)\right)}{g(x)} = b(x)
 }$\\
 $\displaystyle{
-    a(x) = a^*(x) - rest(a^*(x))
+    a(x) = a^*(x) - rest\left(a^*(x)\right)
 }$
 
-$rest(a^*(x))$: Divisionsrest
+$rest\left(a^*(x)\right)$: Divisionsrest
 
 \subsubsection{Über Prüfpolynom (systematisch)}
 
 Prüfpolynom:
 
 $\displaystyle{
-    h(x) = \prod_{i=0}^{k-1} (x - \alpha^{-i})
+    h(x) = \prod_{i=0}^{k-1} \left(x - \alpha^{-i}\right)
 }$
 
 Produkt aus Generator- und Prüfpolynom ist 0
@@ -268,6 +272,15 @@ Produkt aus Generator- und Prüfpolynom ist 0
 $\displaystyle{
     g(x) \cdot h(x) = 0
 }$
+
+und Produkt aus Codepolynom und Prüfpolynom ist 0
+
+$\displaystyle{
+    a(x) \cdot h(x) = 0
+}$
+
+genau da, wo $g(x)$ (oder $a(x)$) Nullstellen hat (also $G_i$ 0 ist) hat das Prüfpolynom $h(x)$ keine Nullstellen
+(ist also $H_i$ nicht 0) und umgekehrt
 
 \subsection{Decodierung}
 
@@ -313,19 +326,35 @@ $\hookrightarrow$ Aufstellen der Schlüsselgleichungen
 
 \subsubsection{Schlüsselgleichungen}
 
-beschreiben, dass Faltung von $C(x)$ und $F(x)$ Null sind (Achtung: zyklische Faltung, siehe \autoref{sec:galois})
+beschreiben, dass Faltung von $C(x)$ und $F(x)$ Null ist (Achtung: zyklische Faltung, siehe \autoref{sec:galois})
 
 $F_0$ bis $F_{n-k-1}$ (bzw. $F_{d-2}$) sind bekannt, da diese direkt an den Syndromstellen
 von $R(x)$ stehen
 
-Alle $C$-Koeff. sind unbekannt, außer $C_{t-1}$, dieser wird zu $1$ gesetzt
+Alle $C$-Koeff. sind unbekannt, außer $C_{t}$, dieser wird zu $1$ gesetzt
 
 $\displaystyle{
-    C_{t-1} = 1
+    C_{t} = 1
 }$
 
-da Anzahl der Fehler ($t$) unbekannt sind, muss ausprobiert werden, welche minimale Anzahl an Fehlern
-die Schlüsselgleichungen erfüllt
+da Anzahl der Fehler ($t$) unbekannt ist, muss ausprobiert werden, welche \underline{minimale} Anzahl an Fehlern
+die Schlüsselgleichungen widerspruchsfrei erfüllt
+
+Lösen der Schlüsselgleichungen nach $C(x)$
+
+$\hookrightarrow$ Nullstellensuche von $C(x)$ ergibt die Nullen des $c(x)$
+
+$\hookrightarrow$ wenn Grad von $C(x)$ nicht mit Anzahl der Nullstellen übereinstimmt $\rightarrow$ Decodierversagen
+
+Lösen der Schlüsselgleichungen nach $F(x)$
+
+$\hookrightarrow f(x)$ aus Rücktransformation von $F(x)$
+
+$\hookrightarrow f(x)$ von $r(x)$ abziehen, man erhält $a(x)$
+
+$\displaystyle{
+    a(x) = r(x) - f(x)
+}$
 
 %%// TODO: Schlüsselgleichungen aufstellen
 
