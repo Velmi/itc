@@ -11,7 +11,7 @@ bit: binary digit $\rightarrow$ bit als binäres Symbol
 je unwahrscheinlicher ein Symbol $x$ auftritt, desto mehr Information enhält es:
 
 $\displaystyle{
-    I(x) = ld\left( \frac{1}{P(x)} \right) -ld(P(x))
+    I(x) = ld\left( \frac{1}{P(x)} \right) = -ld(P(x))
 }$
 
 $P$: Wahrscheinlichkeit eines Symbols\\
@@ -70,7 +70,11 @@ Codebaum aufbauen:
 Beschrifte die Pfade mit 1 und 0\\
 $\rightarrow$ Codewort ergibt sich, indem man von Wurzel bis zum Blatt geht
 
-%%// TODO: beispiel rein
+\includegraphics[width=6cm]{img/huffman.PNG}
+
+\underline{Hinweis}: Beschriftung der 0; 1 theoretisch egal aber für Überprüfen mit Onlinerechner
+sollte konsistent der Pfad mit der geringeren und höheren Wahrscheinlichkeit gleich Beschriftet
+werden
 
 \subsubsection{Arithmetische Codierung}
 
@@ -165,7 +169,31 @@ $ 2^3 = 8 \mod 5 = 3$
 ab hier zykische Wiederholung:\\
 $2^4 = 16 \mod 5 = 1$
 
-%%//TODO: DFT, zyklische Faltung
+\textbf{Polynome}
+
+Folge an $n$ Zahlen im Galois-Feld wird als Polynom vom Grad $n-1$ geschrieben
+
+$\displaystyle{
+    \hookrightarrow \{ 1; 4; 3; 1 \} \rightarrow A(x) = 1x^3 + 4x^2 + 3x + 1
+}$
+
+Auswertung des Polynoms an verschiedenen Stellen von $\alpha^i$ ergibt ihre Fouriertransformierte $a(x)$
+
+$\displaystyle{
+    a_i = A(\alpha^i)
+}$
+
+\textbf{Zyklische Faltung}
+
+Polynommultiplikation im Galois-Feld $\rightarrow$ zyklische Faltung
+
+Normale Faltung mit endlichen Signalen $\rightarrow$ endliches Faltungsergebnis
+
+Zyklische Faltung: Signale sind periodisch, damit Faltungsergebnis ebenfalls periodisch (und damit unendlich lang)
+
+\includegraphics[width=8.7cm]{img/zykische_faltung.PNG}
+
+links: zyklische Faltung \;\;\;\;\;\;\;\;\;\;\;\; rechts: normale Faltung
 
 \section{Reed-Solomon-Code}
 
@@ -282,6 +310,18 @@ $\displaystyle{
 genau da, wo $g(x)$ (oder $a(x)$) Nullstellen hat (also $G_i$ 0 ist) hat das Prüfpolynom $h(x)$ keine Nullstellen
 (ist also $H_i$ nicht 0) und umgekehrt
 
+\subsubsection{Zyklischer Code}
+
+Multiplikation eines Polynoms mit $x^i$ verschiebt Koeff. des Polynoms um $i$-Stellen
+
+durch mod-Rechnung des Exponenten verschieben sich höhere Exponenten wieder an den Anfang des Polynoms
+
+Bsp.:
+
+$\displaystyle{
+    x \cdot a(x) = x \cdot ( 2x^2 + x + 1 ) = 2x^3 + x^2 + x = x^2 + x + 2
+}$
+
 \subsection{Decodierung}
 
 \textbf{Idee:}
@@ -371,8 +411,6 @@ Suche des ggT zweier Zahlen
 Kann zur Lösung der Schlüsselgleichungen verwendet werden
 
 %%// TODO
-
-\subsection{Horner-Schema}
 
 \section{Erweiterungskörper}
 
