@@ -396,13 +396,7 @@ $\displaystyle{
     a(x) = r(x) - f(x)
 }$
 
-%%// TODO: Schlüsselgleichungen aufstellen
-
-\textbf{Berlekamp-Massey-Algorithmus}
-
-effizientes Verfahren zur Lösung der Schlüsselgleichungen
-
-%%//TODO
+%%// TODO: Schlüsselgleichungen aufstellen und eigentliche Schlüsselgleichungen
 
 \textbf{Euklidscher Algorithmus}
 
@@ -414,13 +408,69 @@ Kann zur Lösung der Schlüsselgleichungen verwendet werden
 
 \section{Erweiterungskörper}
 
+\subsection{Idee}
+
 Erweitern des Grundkörpers (z.B. $2$) mit Exponent (z.B. $4$) $\rightarrow$
 $GF(2^4)$
 
-primitives Element wird zu primitivem Polynom, z.B.
+Irreduzibles Polynom ist die Primzahl des Erweiterungskörpers z.B. in $GF(2^4)$:\\
 $\displaystyle{
     p(x) = x^4 + x + 1
 }$
+
+Irreduzibles Polynom: $ggT(p(x), b(x)) = 1$
+
+größter gemeinsamer Teiler mit einem beliebigen Polynom $b(x)$ ist 1
+
+d.h. $p(x)$ kann nicht in Linearfaktoren zerlegt werden
+
+für irreduzible Polynome gilt:\\
+- ist durch kein Polynom ohne Rest teilbar\\
+- hat keine Nullstellen
+
+\textbf{aber:} Nullstellen sind wichtig für Nutzung des RS-Codes, daher \flqq Erfindung\flqq{} des
+Elements $\alpha$, welches Nullstelle von $p(x)$ ist
+
+$\displaystyle{
+    p(\alpha) = 0
+}$
+
+am Beispiel:\\
+$\displaystyle{
+    p(\alpha) = \alpha^4 + \alpha + 1 = 0
+}$
+
+Analogie: \flqq Erfindung\flqq{} von $j$, sodass gilt:
+
+$\displaystyle{
+    j^2 + 1 = 0
+}$
+
+primitives Polynom: Nullstelle ($\alpha$) des primitiven Polynoms erzeugt alle Elemente (außer 0) des Erweiterungskörpers
+
+primitives Element: Nullstelle $\alpha$ des primitiven Polynoms
+
+\subsection{Eigenschaften von Erweiterungskörpern}
+
+Ordnung des primitiven Elements: $2^m - 1$ im $GF(2^m)$
+
+Erzeugung der Elemente über Potenzieren des primitiven Elements $\alpha$
+
+zum Körper $GF(2^m)$ gehören $2^m$ Elemente ($2^m - 1$ dieser wird durch Potenzieren von $\alpha$ erzeugt)
+
+Elemente der Erweiterungskörper sind Polynome
+
+\textbf{Darstellung}
+
+Erzeugung von bspw. $\alpha^3$ in $GF(2^4)$ mit Irreduziblem Polynom $p(x) = x^4 + x + 1$:
+
+$\displaystyle{
+    \alpha^3 = 1 \cdot \alpha^3 + 0 \cdot \alpha^2 + 0 \cdot \alpha^1 + 0 \cdot \alpha^0
+}$
+
+dazugehörige Binärdarstellung:
+
+$1000$
 
 \section{BCH-Codes}
 
