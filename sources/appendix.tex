@@ -68,8 +68,23 @@ gegeben $5 \cdot 6 = (\alpha^2 + 1) \cdot (\alpha^2 + \alpha)$
 
 Bsp.: $GF(5)$ mit $\alpha = 2$
 
-gegeben $g(x) = $
-%// TODO
+gegeben $g(x) = x^2 + 5x + 4$
+
+$\hookrightarrow$ 2 Syndromstellen
+
+Suchen über stures Einsetzen der Elemente des $GF(5)$:
+
+$g(\alpha^{-0}) = \alpha^{-0^2} + 3\alpha^{-0} + 2 = 1 + 3 + 2 = 1$
+
+$\hookrightarrow$ Position 0 keine Syndromstelle 
+
+$g(\alpha^{-1}) = \alpha^{-1^2} + 3 \alpha^{-1} + 2 = 3^2 + 3 \cdot 3 + 2 = 0$
+
+$\hookrightarrow$ Position 1 ist Syndromstelle
+
+$g(\alpha^{-2}) = \alpha^{-2^2} + 3 \cdot \alpha^{-2} + 2 = 4^2 + 3 \cdot 3^2 + 2 = 0$
+
+$\hookrightarrow$ Position 2 ist Syndromstelle
 
 \subsection{ABC/PQ-Formel}
 
@@ -91,7 +106,34 @@ $\displaystyle{
 
 \subsection{Polynomdivision}
 
+\textbf{allgemein:}
+
+gegeben: $(6x^3-2x^2+x+3) : (x^2-x+1)$
+
+\polylongdiv[style=D]{6x^3-2x^2+x+3}{x^2-x+1}
+
+Quotient $q(x) = 6x + 4$
+
+Rest $r(x) = - x - 1$
+
 \textbf{Horner-Schema}
+
+zur Polynomdivision mit Linearfaktor
+
+Rest der Division mit $(x - x_0)$ ist Wert des Polynoms an der Stelle $x_0$
+
+gegeben: $p(x) = 3x^3 + 2x^2 - 5x - 10$
+
+$\begin{array}{c|cccc|c}
+    & x^3 & x^2 & x^1 & x^0 & 2\\
+    & 3   & 2   & -5  & -10 & \\
+    &     & 6   & 16  & 22  \\ \hline
+    & 3   & 8   & 11  & \multicolumn{1}{c|}{12}   &
+\end{array}$
+
+Quotient: $q(x) = 3x^2 + 8x + 11$
+
+Rest: $r(x) = 12 = p(2)$
 
 \section{Lineare Algebra}
 
@@ -438,3 +480,114 @@ $\displaystyle{
 $\displaystyle{
     y(t) = x(t) - a_1 \cdot y(t-1) - ... - a_n \cdot y(t-N)
 }$
+
+\section{Wahrscheinlichkeitstheorie}
+
+\subsection{Satz von Bayes}
+
+$\displaystyle{
+    P(A|B) \cdot P(B) = P(B|A) \cdot P(A)
+}$
+
+$\displaystyle{
+    P(A|B) = \frac{P(B|A)}{P(B)} \cdot P(A)
+}$
+
+\subsection{Kombinatorik}
+
+\subsubsection{Permutation}
+
+\textbf{Ohne Wiederholung}
+
+Anordung \underline{aller} möglicher, unterscheidbarer Ereignisse, kein Ereignisse tritt doppelt auf
+
+$\displaystyle{
+    M = N!
+}$
+
+\textbf{Beispiel}: In einem Glas sind 5 verschiedenfarbige Bonbons. Wie viele Möglichkeiten gibt es,
+alle aus dem Glas zu nehmen? (ohne Zurücklegen)
+
+$\hookrightarrow M = N! = 5! = 120$
+
+\textbf{Mit Wiederholung}
+
+Anordung aller möglicher Ereignisse, von welchen manche nicht unterscheidbar sind
+
+$\displaystyle{
+    M = \frac{N!}{K_1! \cdot ... \cdot K_s!}
+}$
+
+$K_x$: Gibt an, wie viele ununterscheidbare Ereignisse es pro Ereignis gibt
+
+\textbf{Beispiel}: In einem Glas liegen 2 blaue, 2 rote und ein grünes Bonbon. Wie viele Möglichkeiten gibt es
+alle aus dem Glas zu nehmen? (Ohne Zurücklegen)
+
+$\displaystyle{
+    \hookrightarrow \frac{5!}{2! \cdot 2! \cdot 1!} = 30
+}$
+
+$N$: Anzahl der möglichen Ereignisse\\
+$M$: Anzahl der Permutationen
+
+\subsubsection{Variation}
+
+\textbf{Ohne Wiederholung}
+
+Zusammenstellung von $K$ Ereignissen; Reihenfolge relevant
+
+$\displaystyle{
+    M = \frac{N!}{(N - K)!}
+}$
+
+\textbf{Beispiel}: In einem Glas liegen 5 verschiedenfarbige Bonbons. Wie viele Möglichkeiten gibt es, 3
+Bonbons herauszunehmen? (Ohne Zurücklegen)
+
+$\displaystyle{
+    \hookrightarrow M = \frac{5!}{(5-2)!} = \frac{5!}{2!} = 60
+}$
+
+\textbf{Mit Wiederholung}
+
+$\displaystyle{
+    M = N^{K}
+}$
+
+\textbf{Beispiel}: In einem Glas liegen 5 verschiedenfarbige Bonbons. Wie viele Möglichkeiten gibt es, 3
+Bonbons herauszunehmen? (Mit Zurücklegen)
+
+$\displaystyle{
+    \hookrightarrow M = 5^3 = 125
+}$
+
+$M$: Anzahl der Variationen\\
+$N$: Anzahl der möglichen Ereignisse\\
+$K$: Anzahl der zusammengestellten Ereignisse (Ordnung)
+
+\subsubsection{Kombination}
+
+Wie Variation, Reihenfolge aber irrelevant (vgl. Lottoziehung)
+
+\textbf{Ohne Wiederholung}
+
+$\displaystyle{
+    M = \begin{pmatrix}
+        N\\
+        K
+    \end{pmatrix}
+    = \frac{N!}{K! \cdot (N - K)!}
+}$
+
+\textbf{Mit Wiederholung}
+
+$\displaystyle{
+    M = \begin{pmatrix}
+        N + K - 1\\
+        K
+    \end{pmatrix} 
+    = \frac{(N + K - 1)!}{K! \cdot (N - 1)!}
+}$
+
+$M$: Anzahl der Kombinationen\\
+$N$: Anzahl der möglichen Ereignisse\\
+$K$: Anzahl der zusammengestellten Ereignisse (Ordnung)

@@ -72,8 +72,8 @@ $\rightarrow$ Codewort ergibt sich, indem man von Wurzel bis zum Blatt geht
 
 \includegraphics[width=6cm]{img/huffman.PNG}
 
-\underline{Hinweis}: Beschriftung der 0; 1 theoretisch egal aber für Überprüfen mit Onlinerechner
-sollte konsistent der Pfad mit der geringeren und höheren Wahrscheinlichkeit gleich Beschriftet
+\underline{Hinweis}: Beschriftung der 0; 1 theoretisch egal aber für Überprüfung mit Onlinerechnern
+sollte konsistent der Pfad mit der geringeren und höheren Wahrscheinlichkeit gleich beschriftet
 werden
 
 \subsubsection{Arithmetische Codierung}
@@ -95,6 +95,111 @@ Code beschrieben durch $C(n, k, d)$
 $n$: Länge Codewort\\
 $k$: Länge Informationswort\\
 $d$: Mindestabstand
+
+Coderate: 
+$\displaystyle{
+    CR = \frac{k}{n}
+}$
+
+\subsection{Generelles}
+
+\textbf{Generatormatrix}
+
+Erzeugung eines Codewortes über Multiplikation eines Informationsvektors
+
+$\displaystyle{
+    \vec{c} = i \cdot G
+}$
+
+$c$: Codewort\\
+$i$: Informationswort\\
+$G$: Generatormatrix
+
+\textbf{Prüfmatrix}
+
+$\displaystyle{
+    \vec{c}^T  H = 0
+}$
+
+$\displaystyle{
+    H \cdot G^T
+}$
+
+$H$: Prüfmatrix
+
+\textbf{Syndrom}
+
+wenn Empfangswort $r$ fehlerhaft ist (damit nicht zum Coderaum gehört) dann ist das Produkt aus
+Prüfmatrix und Empfangswort das \textit{Syndrom} und nicht mehr 0
+
+$\displaystyle{
+    \vec{r}^T  H = \vec{s} \neq 0
+}$
+
+\textbf{Systematische Codes}
+
+Systematischer Code: Einheitsmatrix $I$ ist Teil der Generatormatrix
+
+$\displaystyle{
+    G = [I | G']
+}$
+
+Bsp.: C(7, 4, 3): 
+$\displaystyle{
+    G =
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 & 0 & 1 & 1\\
+        0 & 1 & 0 & 0 & 1 & 0 & 1\\
+        0 & 0 & 1 & 0 & 1 & 1 & 0\\
+        0 & 0 & 0 & 1 & 1 & 1 & 1
+    \end{pmatrix}
+}$
+
+\textbf{Lineare Codes}
+
+%//TODO
+
+\textbf{Gewicht}
+
+Gewicht eines Codewortes: Anzahl der von 0 verschiedenen Stellen
+
+Mindestgewicht: Minimale Anzahl an Stellen, die von 0 verschieden sind
+
+\textbf{Distanz/Abstand}
+
+Hamming-Distanz: Anzahl an verschiedenen Stellen zweier Codewörter
+
+Mindestdistanz: Mindestanzahl an verschiedenen Stellen zweier beliebiger Codewörter eines Codes
+
+bei linearen Codes: Mindestgewicht = Mindestabstand
+
+\textbf{Fehlerkorrigierbarkeit/Fehlererkennung}
+
+%//TODO
+
+\subsection{Hamming-Codes}
+
+immer $d=3$
+
+$\displaystyle{
+    n = 2^h - 1
+}$
+
+$\displaystyle{
+    k = n - h
+}$
+
+\begin{tabular}{c|c c c}
+    h & n & k & d\\
+    \hline
+    2 & 3 & 1 & 3\\
+    3 & 7 & 4 & 3\\
+    4 & 15 & 11 & 3\\
+    5 & 31 & 26 & 3\\
+    \vdots & \vdots & \vdots & \vdots
+\end{tabular}
+
+\textbf{Konstruktion}
 
 \section{Galois-Felder}
 \label{sec:galois}
@@ -208,7 +313,7 @@ $\displaystyle{
     e = \Bigl\lfloor \frac{d - 1}{2} \Bigr\rfloor
 }$\\
 $\displaystyle{
-    d = 2e - 1
+    d = 2e + 1
 }$
 
 bei linearem Code ist Mindestabstand = Mindestgewicht
@@ -240,6 +345,19 @@ $d = n - (k - 1) = n - k + 1$
 
 Verschiedene Möglichkeiten aus einem Informationswort ein Codewort zu generieren
 
+\subsubsection{Generatorpolynom}
+
+$\displaystyle{
+    g(x) = \prod_{i=k}^{n-1} \left(x - \alpha^{-i}\right)
+}$
+
+Syndromstellen beginnen hier bei $k$, es sind aber alle anderen Stellen möglich, solange sie zusammenhängen
+
+$grad(g(x)) = d-1 = n-k$ = Anzahl Syndromstellen
+
+$g(x)$: Generatorpolynom\\
+$i(x)$: Informationspolynom
+
 \subsubsection{IDFT (nicht systematisch)}
 
 $\displaystyle{
@@ -249,20 +367,11 @@ $\displaystyle{
 $A(x)$: Informationswort\\
 $a_i$: Koeff. des Codewortes
 
-\subsubsection{Generatorpolynom (nicht systematisch)}
+\subsubsection{Polynommultiplikation (nicht systematisch)}
 
 $\displaystyle{
     a_i = g(x) \cdot i(x)
 }$
-
-mit Generatorpolynom
-
-$\displaystyle{
-    g(x) = \prod_{i=k}^{n-1} \left(x - \alpha^{-i}\right)
-}$
-
-$g(x)$: Generatorpolynom\\
-$i(x)$: Informationspolynom
 
 \subsubsection{Polynomdivision (systematisch)}
 
@@ -364,6 +473,16 @@ $\hookrightarrow$ Aufstellen der Schlüsselgleichungen
 
 \includegraphics[width=8cm]{img/decod_rs.PNG}
 
+\subsubsection{Vorgehen}
+
+\begin{enumerate}
+    \item Fouriertransformation des empfangenen Codewortes $r(x) \rightarrow R(x)$
+    \item Auslesen der Koeff. des Syndrompolynoms ($S_0, ..., S_n$) aus $R(x)$ und Aufstellen des Syndrompolynoms
+    \item Berechnung des $C(x)$ aus Schlüsselgleichungen oder euklidschem Algorithmus
+    \item Berechnung der Fehlerstellen durch Nullstellensuche von $C(x)$
+    \item Berechnung des Fehlerwertes über Schlüsselgleichungen oder Forney-Algorithmus
+\end{enumerate}
+
 \subsubsection{Schlüsselgleichungen}
 
 beschreiben, dass Faltung von $C(x)$ und $F(x)$ Null ist (Achtung: zyklische Faltung, siehe \autoref{sec:galois})
@@ -398,13 +517,86 @@ $\displaystyle{
 
 %%// TODO: Schlüsselgleichungen aufstellen und eigentliche Schlüsselgleichungen
 
-\textbf{Euklidscher Algorithmus}
+\subsubsection{Euklidscher Algorithmus}
 
 Suche des ggT zweier Zahlen
 
 Kann zur Lösung der Schlüsselgleichungen verwendet werden
 
-%%// TODO
+Rest:
+
+$\displaystyle{
+    r_n = v_n a_n + w_n b_n
+}$
+
+Rekursionsformeln für $v_n$ und $w_n$:
+
+$\displaystyle{
+    v_n = v_{n-2} - q_n v_{n-1}
+}$
+
+$\displaystyle{
+    w_n = w_{n-2} - q_n w_{n-1}
+}$
+
+$q_n$: Quotient des vorherigen Schrittes
+
+Initialisierung:
+
+$\displaystyle{
+    v_{-1} = 1 \;\;\;\;\; v_0 = 0
+}$\\
+$\displaystyle{
+    w_{-1} = 0 \;\;\;\;\; w_0 = 1
+}$
+
+Suche des $C(x)$ und damit den Fehlerstellen
+
+Polynomdivision von $x^{d-1}$ und des Syndrompolynoms $S(x)$
+
+$\displaystyle{
+    x^{d-1} : S(x)
+}$
+
+Wenn Rest der Division im Grad nicht kleiner ist als die Anzahl der Fehler $e$, die maximal korrigiert
+werden können $\rightarrow$ weiter: $S(x) : r_1(x)$
+
+usw.
+
+ist Grad des Restes kleiner als $e$ $\rightarrow$ Berechnung des $C(x)$ und des $T(x)$
+
+$\hookrightarrow C(x) = w_n$
+
+$\hookrightarrow T(x) = -r_n$
+
+\subsubsection{Forney-Algorithmus}
+
+Fehlerwertberechnung aus gegebenem $C(x)$ und $T(x)$
+
+$\displaystyle{
+    f_i = x^q \cdot n \cdot x^{-1} \frac{T(x)}{C'(x)}\bigg \vert_{x=\alpha^i}
+}$
+
+$q$: Verschiebung der Syndromstellen ($q=5$, wenn Syndrom an Stelle 5)
+
+\underline{Achtung}: Fehlerwert an den Stellen, an dem \underline{keine} Fehler passiert sind, ist i.A.
+\underline{nicht} 0
+
+\subsection{Kürzere Codes}
+
+\textbf{Verkürzung}
+
+Streichen von Informationswortstellen und Codewortstellen
+
+Distanz und damit Fehlerkorrigierbarkeit bleibt gleich
+
+Code ist nicht mehr zyklisch
+
+Bsp.: Verkürzung eines $C(6, 2, 5)$ um 1 auf $C(5, 1, 5)$
+
+\textbf{Punktierung}
+
+%//TODO
 
 \section{Erweiterungskörper}
 
@@ -462,7 +654,7 @@ Elemente der Erweiterungskörper sind Polynome
 
 \textbf{Darstellung}
 
-Erzeugung von bspw. $\alpha^3$ in $GF(2^4)$ mit Irreduziblem Polynom $p(x) = x^4 + x + 1$:
+Erzeugung von bspw. $\alpha^3$ in $GF(2^4)$ mit irreduziblem Polynom $p(x) = x^4 + x + 1$:
 
 $\displaystyle{
     \alpha^3 = 1 \cdot \alpha^3 + 0 \cdot \alpha^2 + 0 \cdot \alpha^1 + 0 \cdot \alpha^0
@@ -474,3 +666,210 @@ $1000$
 
 \section{BCH-Codes}
 
+\subsection{Idee}
+
+Für Erweiterungskörper war $\alpha$ die Nullstelle des primitiven Polynoms
+
+ABER: d'Alembert: Polynom vom Grad $m$ hat $m$ Nullstellen
+
+Wo sind die restlichen Nullstellen der primitiven Polynome höheren Grades?
+
+$\hookrightarrow$ wenn $\alpha$ Nullstelle von $p(x)$ ist, dann sind auch $\alpha^2, \alpha^{2^2}, \alpha^{2^3}, ..., \alpha^{2^{m-1}}$
+Nullstellen ($\rightarrow$ konjugiert komplexe Nullstellen)
+
+\subsection{Kreisteilungsklassen}
+
+\section{Faltungscodes}
+
+Filterung der Eingangssequenz mit FIR-Filter
+
+Beschreibung durch $C(n, k, [z])$
+
+$n$: Anzahl Ausgänge\\
+$k$: Anzahl Eingänge\\
+$z$: Anzahl an Speicherzellen
+
+\subsection{Ein Ausgang}
+
+Faltungscoder ohne Redundanz
+
+Normaler FIR-Filter mit binären Koeffizienten, Generatorsequenz ist Impulsantort
+
+Delay: $z^{-1} = D$
+
+Impulsantort: $\vec{g}$
+
+Inhalt der Speicherzellen: $\vec{d}$
+
+Ausgang: $\displaystyle{
+    a = \vec{g} \cdot
+    \begin{pmatrix}
+        i\\
+        \vec{d}
+    \end{pmatrix}
+}$
+
+\textbf{Beispiel}
+
+\includegraphics[width=7cm]{img/faltungscoder1in1out.PNG}
+
+Impulsantort: $\displaystyle{
+    g = 1 + 1D + 0D^2 + D^3 = 1 + D + D^3
+}$
+
+Generatorsequenz: $\displaystyle{\vec{g}^T =
+    \begin{pmatrix}
+        1 & 1 & 0 & 1
+    \end{pmatrix}
+}$
+
+Von links nach rechts steht \textcolor{red}{$ (1 0 0) $} in den Speicherzellen und es wird $i = 1$ hineingeschrieben
+
+$\displaystyle{
+    \hookrightarrow \vec{d} = \begin{pmatrix}
+        1\\
+        0\\
+        0
+    \end{pmatrix}
+}$
+
+$\displaystyle{
+    a = \begin{pmatrix}
+        1 & 1 & 0 & 1
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        1\\
+        1\\
+        0\\
+        0
+    \end{pmatrix}
+    = 0    
+}$
+
+\subsection{Mehrere Ausgänge}
+
+Filter mit mehreren Ausgängen
+
+2 Impulsantorten des Filters geben 2 verschiedene Ausgänge
+
+Generatorsequenz wird zu Generatormatrix mit 2 Generatorsequenzen
+
+$\displaystyle{
+    \vec{a} = G^T \cdot
+    \begin{pmatrix}
+        i\\
+        \vec{d}
+    \end{pmatrix} =
+    \begin{pmatrix}
+        a_1\\
+        a_2
+    \end{pmatrix}
+}$\;\;\;\;\;\;\;\;\;\;\;\;\;
+$\displaystyle{
+    G =
+    \begin{pmatrix}
+        \vec{g_1}^T\\
+        \vec{g_2}^T
+    \end{pmatrix}
+}$
+
+\textbf{Beispiel}
+
+\includegraphics[width=7cm]{img/faltungscoder1in2out.PNG}
+
+Im Speicher steht wieder von links nach rechts \textcolor{red}{$ (1 0 0) $} und es wird $i = 1$ hineingeschrieben
+
+$\displaystyle{
+    \vec{a} =
+    \begin{pmatrix}
+        1 & 1 & 0 & 1\\
+        1 & 1 & 1 & 1
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        1\\
+        1\\
+        0\\
+        0
+    \end{pmatrix} =
+    \begin{pmatrix}
+        0\\
+        0
+    \end{pmatrix}
+}$
+
+\subsection{Mehrere Ausgänge}
+
+Mehrere Eingänge ($i_1, i_2$) um Coderate anzupassen
+
+für jeden Ausgang gibt es jeweils 2 Generatorsequenzen ($g_{ij}$)
+
+$i$: Eingang\\
+$j$: Ausgang
+
+\textbf{Beispiel}
+
+\includegraphics[width=7cm]{img/faltungscoder2in3out.PNG}
+
+$\displaystyle{
+    \vec{g_{11}}^T = \begin{pmatrix}
+        1 & 1 & 0 & 1
+    \end{pmatrix}
+    \;\;\;\;\;\;\;
+    \vec{g_{21}}^T = \begin{pmatrix}
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+}$
+
+$\displaystyle{
+    \vec{g_{12}}^T = \begin{pmatrix}
+        1 & 1 & 1 & 1
+    \end{pmatrix}
+    \;\;\;\;\;\;\;
+    \vec{g_{22}}^T = \begin{pmatrix}
+        0 & 0 & 1 & 0
+    \end{pmatrix}
+}$
+
+$\displaystyle{
+    \vec{g_{13}}^T = \begin{pmatrix}
+        0 & 0 & 0 & 1
+    \end{pmatrix}
+    \;\;\;\;\;\;\;
+    \vec{g_{23}}^T = \begin{pmatrix}
+        0 & 1 & 1 & 0
+    \end{pmatrix}
+}$
+\\
+
+Zusamenfassung in $G$
+
+\begin{equation*}
+    G = 
+    \begin{tikzpicture}[baseline={-0.5ex},mymatrixenv]
+        \matrix [mymatrix,inner sep=4pt] (m)  
+        {
+            1 & 0 & 1 & 0 & 0 & 0 & 1 & 0\\
+            1 & 0 & 1 & 0 & 1 & 1 & 1 & 0\\
+            0 & 0 & 0 & 1 & 0 & 1 & 1 & 0\\
+        };
+    
+        % Braces
+        \mymatrixbracebottom{2}{1}{$D^0$}
+        \mymatrixbracebottom{4}{3}{$D^1$}
+        \mymatrixbracebottom{6}{5}{$D^2$}
+        \mymatrixbracebottom{8}{7}{$D^3$}
+        \mymatrixbraceleft{1}{1}{Ausgang 1}
+        \mymatrixbraceleft{2}{2}{Ausgang 2}
+        \mymatrixbraceleft{3}{3}{Ausgang 3}
+        \mymatrixbracetop{1}{1}{E1}
+        \mymatrixbracetop{2}{2}{E2}
+        \mymatrixbracetop{3}{3}{E1}
+        \mymatrixbracetop{4}{4}{E2}
+        \mymatrixbracetop{5}{5}{E1}
+        \mymatrixbracetop{6}{6}{E2}
+        \mymatrixbracetop{7}{7}{E1}
+        \mymatrixbracetop{8}{8}{E2}
+    \end{tikzpicture}
+\end{equation*}
