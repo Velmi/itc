@@ -666,6 +666,9 @@ $d = n - (k - 1) = n - k + 1$
 Verschiedene Möglichkeiten aus einem Informationswort ein Codewort zu generieren
 
 \subsubsection{Generatorpolynom}
+\label{subsubsec:gen-poly}
+
+Erzeugt zusammenhängende Nullstellen im Codewort = Syndromstellen
 
 $\displaystyle{
     g(x) = \prod_{i=k}^{n-1} \left(x - \alpha^{-i}\right)
@@ -988,6 +991,8 @@ $1000$
 
 \subsection{Idee}
 
+Wunsch: reelle Koeffizienten (reell im $GF(2^m)$ = binär)
+
 Für Erweiterungskörper war $\alpha$ die Nullstelle des primitiven Polynoms
 
 ABER: d'Alembert: Polynom vom Grad $m$ hat $m$ Nullstellen
@@ -997,7 +1002,41 @@ Wo sind die restlichen Nullstellen der primitiven Polynome höheren Grades?
 $\hookrightarrow$ wenn $\alpha$ Nullstelle von $p(x)$ ist, dann sind auch $\alpha^2, \alpha^{2^2}, \alpha^{2^3}, ..., \alpha^{2^{m-1}}$
 Nullstellen ($\rightarrow$ konjugiert komplexe Nullstellen)
 
+Ein Polynom aus konjugiert komplexen Nullstellen hat reelle (in unserem Fall binäre) Koeffizienten
+
+im Allgeimeinen sind $\alpha^{j \cdot 2^i \mod 2^m - 1}$ \;\;\;\; ($i = 0, ..., m-1$) konjugiert komplexe Nullstellen
+
+$\hookrightarrow$ Kreisteilungsklassen
+
 \subsection{Kreisteilungsklassen}
+
+Sind nur vom Erweiterungskörper abhängig, nicht vom primitiven Polynom
+
+Eine Kreisteilungsklasse enthält die Exponenten der konjugiert komplexen Nullstellen des
+primitiven Polynoms
+
+$K_j = j \cdot 2^i \mod 2^m - 1$ \;\;\;\; ($i = 0, ..., m-1$)
+
+Bsp.: $GF(2^3)$
+
+$K_0 = \{0\}$\\
+$K_1 = \{ 1, 2, 4 \}$\\
+$K_2 = \{ 2, 4, 1 \} = K_1$\\
+$K_3 = \{ 3, 6, 5 \}$
+
+D.h. um ein (Generator)polynom aufzustellen, welches reelle (=binäre) Koeffizienten hat,
+braucht man alle konjugiert komplexen Nullstellen
+
+\subsubsection{Generatorpolynom}
+
+Konstruktion eines Codes über Vorgabe der Korrekturfähigkeit $e$ und damit $d$
+
+RS-Codes: Generatorpolynom vom Grad $d-1$ (siehe Abschnitt \ref{subsubsec:gen-poly})
+
+$\hookrightarrow$ d.h. $d-1$ zusammenhängende Nullstellen
+
+Zusammenhängende Nullstellen bei BCH-Codes nur möglich, wenn alle Elemente der entsprechenden
+Kreisteilungsklassen im Generatorpolynom vorhanden sind
 
 \section{Faltungscodes}
 
@@ -1193,3 +1232,18 @@ Zusamenfassung in $G$
         \mymatrixbracetop{8}{8}{E2}
     \end{tikzpicture}
 \end{equation*}
+
+\subsection{Modifikationen}
+
+\textbf{Punktierung}
+%// TODO
+
+\textbf{Terminierung}
+%//TODO
+
+\textbf{Tail-Bitung}
+%//TODO
+
+\subsection{Decodierung}
+
+%// TODO Trellis
