@@ -82,11 +82,184 @@ Codierung eines Wortes (oder Textes) durch Zahl
 
 Endezeichen notwendig, da keine natürliche Terminierung des Codes
 
+%//TODO
+
 \subsection{Kanalmodell}
+
+\subsubsection{Binärkanal}
+
+\includegraphics[width=4cm]{img/kanalmodell.PNG}
+
+$P(Y|X)$: \frqq Wahrscheinlichkeit für Y, wenn X gesendet wurde\flqq (a-priori-Wahrscheinlichkeit)
+
+$P(X|Y)$: \frqq Wahrscheinlichkeit für X, wenn Y empfangen wurde\flqq (a-posteriori-Wahrscheinlichkeit)
+
+\textbf{Unxymmetrisch}: Fehlerwahrscheinlichkeit für \frqq 0\flqq{} und \frqq 1\flqq{} unterschiedlich
+
+$\displaystyle{
+    \begin{pmatrix}
+        P(Y|X)    
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        P(0|0) & P(0|1)\\
+        P(1|0) & P(1|1)
+    \end{pmatrix}
+}$
+
+\textbf{Symmetrisch}: Bitfehlerwahrscheinlichkeit $P_e$ für \frqq 0\flqq{} und \frqq 1\flqq{} gleich
+
+$\displaystyle{
+    \begin{pmatrix}
+        P(Y|X)    
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        P(0|0) & P(0|1)\\
+        P(1|0) & P(1|1)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1-P_e & P_e\\
+        P_e & 1-P_e
+    \end{pmatrix}
+}$
+
+\subsubsection{Bedingte Entropie}
+
+$\displaystyle{
+    H(Y|X) = - \sum_{j} \sum_{i} P(x_i, y_i)\,ld(P(y_i|x_i))
+}$\;\; \textbf{Irrelevanz}
+
+$\displaystyle{
+    H(X|Y) = - \sum_{j} \sum_{i} P(x_i, y_i)\,ld(P(x_i|y_i))
+}$\;\; \textbf{Äquivokation}
+
+$H(Y|X)$: \textbf{Irrelevanz (Fehlinformation)}, mittlere Unsicherheit über empfangene Symbole, wenn Sendesymbole bekannt\\
+$H(X|Y)$: \textbf{Äquivokation (Informationsverlust)}, mittlere Unsicherheit über gesendete Symbole, wenn Empfangssymbole bekannt
+
+\subsubsection{Entropiemodell}
+
+\includegraphics[width=7cm]{img/entropiemodell.PNG}
+
+für Empfänger ist $H(Y)$ (also der Ausgang des Kanals) eine neue Quelle, allerdings mit zusätzlicher Fehlinformation
+
+Die Transinformation ist dann die Entropie des Kanals minus der Fehlinformation
+
+$\displaystyle{
+    T(X;Y) = H(Y) - \underbrace{H(Y|X)}_{\text{Fehlinformation}}
+}$
+
+oder die Entropie der Quelle minus des Informationsverlusts
+
+$\displaystyle{
+    T(X;Y) = H(X) - \underbrace{H(X|Y)}_{\text{Informationsverlust}}
+}$
+
+Fehlinformation größer als Informationsverlust (außer es passieren keine Fehler,
+oder die Entropie der Quelle ist maximal, dann $H(X|Y) = H(Y|X)$)
+
+$\hookrightarrow$ Entropie am Ausgang des Kanals größer als die der Quelle (außer es passieren keine Fehler, oder die
+Entropie der Quelle ist maximal, dann $H(X) = H(Y) = 1$)
 
 \subsection{Kanalkapazität}
 
+Die Kanalkapazität ist das Maximum an Information, welche über den Kanal geht
+
+$\displaystyle{
+    C = \max(T(X;Y)) = \max(H(X) - H(X|Y))
+}$
+
+$\displaystyle{
+\;\;\;= \max(H(Y) - H(Y|X))
+}$
+
+$\displaystyle{
+\;\;\;= 1 - H(X|Y) = 1 - H(Y|X)
+}$
+
+für binären, symmetrischen Kanal:
+
+$\displaystyle{
+    H(Y|X) = -p \cdot ld(p) - (1 - p) \cdot ld(1 - p)
+}$
+
+$\displaystyle{
+    C = 1 + p \cdot ld(p) + (1 - p) \cdot ld(1 - p)
+}$
+
+$\displaystyle{
+    C_S = C \cdot R_S
+}$
+
+$p$: Bitfehlerwahrscheinlichkeit\\
+$C$: Kanalkapazität in Information/Symbol $[C] = Bit/Symbol$\\
+$C_S$: Kanalkapazität in Information/Zeit $[C_S] = Bit/s$\\
+$R_S$: Symbolrate $[R_S] = Symbol/s$
+
 \subsection{Shannon-Theoreme}
+
+\subsubsection{Erster Satz von Shannon}
+
+Quellcodierung
+
+Ist ein Informationsfluss von $H_S$ gewünscht, welcher kleiner als die Kanalkapazität $C_S$ ist,
+ist es möglich einen Code zu finden, sodass der Informationsfluss übertragen werden kann
+
+\subsubsection{Zweiter Satz von Shannon}
+
+Kanalcodierung
+
+Ist der die gewünschte Datenfluss $R_S$ ($[R_S] = Symbol/s = bit/s$) kleiner als die Kanalkapazität $C_S$, dann
+gibt es einen Code, sodass die Fehlerwahrscheinlichkeit beliebig klein wird
+
+\subsubsection{Shannon-Hartley}
+
+Kanalkapazität abhängig vom SNR
+
+$\displaystyle{
+    C_S = W \cdot ld\left( 1 + \frac{S}{N} \right)
+}$
+
+$C_S$: Kanalkapazität in Information/Zeit $[C_S] = Bit/s$\\
+$W$: Bandbreite $[W] = Hz$\\
+$S$: Signalleistung\\
+$N$: Rauschleistung
+
+\textbf{Bandbreiteneffizienz}
+
+Wird mit $R_S = C_S$ übertragen, kann die Bandbreiteneffizienz bestimmt werden
+
+$\displaystyle{
+    \frac{R_S}{W} = ld\left( 1 + \frac{S}{N} \right)
+}$
+
+$\displaystyle{
+    S = \frac{E_b}{T_b} = E_b \cdot R_S
+}$\;\;\;\;\;\;\;\;\;\;
+$\displaystyle{
+    N = N_0 \cdot W
+}$
+
+$\displaystyle{
+    \frac{S}{N} = \frac{E_b \cdot R_S}{N_0 \cdot W}
+}$
+
+$\hookrightarrow$ damit S/N \underline{und} Bandbreiteneffizienz abhängig von $W$
+
+Ist eine Bandbreiteneffizienz gewünscht, kann das erfolderliche S/N ausgerechnet werden
+
+$\displaystyle{
+    \frac{E_b}{N_0} = \frac{W}{R_S} ld \left( 2^{\frac{R_S}{W}} - 1 \right)
+}$
+
+$\displaystyle{
+    \frac{E_b}{N_0}_{min} = -1,6\,dB
+}$
+
+$\frac{R_S}{W}$: Bandbreiteneffizienz $[\frac{R_S}{W}] = \left(\frac{bit/s}{Hz}\right)$\\
+$E_b$: Energie die für die Übertragung von 1 bit aufgewendet wird $[E_b] = J = Ws = W/Hz$\\
+$T_b$: Zeitdauer eines bits $[T_b] = s = 1/Hz$
 
 \section{Blockcodes}
 
@@ -118,7 +291,7 @@ $G$: Generatormatrix
 \textbf{Prüfmatrix}
 
 $\displaystyle{
-    \vec{c}^T  H = 0
+    H \vec{c}^T = 0
 }$
 
 $\displaystyle{
@@ -129,11 +302,11 @@ $H$: Prüfmatrix
 
 \textbf{Syndrom}
 
-wenn Empfangswort $r$ fehlerhaft ist (damit nicht zum Coderaum gehört) dann ist das Produkt aus
+wenn Empfangswort $r$ fehlerhaft ist (und nicht zum Coderaum gehört) dann ist das Produkt aus
 Prüfmatrix und Empfangswort das \textit{Syndrom} und nicht mehr 0
 
 $\displaystyle{
-    \vec{r}^T  H = \vec{s} \neq 0
+    H \vec{r}^T = H (\vec{c} + \vec{f})^T = H \vec{f}^T = \vec{s} \neq 0
 }$
 
 \textbf{Systematische Codes}
@@ -157,7 +330,12 @@ $\displaystyle{
 
 \textbf{Lineare Codes}
 
-%//TODO
+Eigenschaften:
+\begin{itemize}
+    \item Mindestgewicht = Mindestabstand
+    \item Codewort + anderes Codewort = wieder Codewort
+    \item Nullwort ist teil des Codes
+\end{itemize}
 
 \textbf{Gewicht}
 
@@ -167,19 +345,79 @@ Mindestgewicht: Minimale Anzahl an Stellen, die von 0 verschieden sind
 
 \textbf{Distanz/Abstand}
 
-Hamming-Distanz: Anzahl an verschiedenen Stellen zweier Codewörter
+Hamming-Distanz: Anzahl verschiedener Stellen zweier Codewörter
 
-Mindestdistanz: Mindestanzahl an verschiedenen Stellen zweier beliebiger Codewörter eines Codes
+Mindestdistanz: Mindestanzahl verschiedener Stellen zweier beliebiger Codewörter eines Codes
 
-bei linearen Codes: Mindestgewicht = Mindestabstand
+\textbf{Fehlerkorrektur/Fehlererkennung}
 
-\textbf{Fehlerkorrigierbarkeit/Fehlererkennung}
+Anzahl der korrigierbaren Fehler $e$ bei gegebenem Abstand $d$
 
-%//TODO
+$\displaystyle{
+    e = \Bigl\lfloor \frac{d - 1}{2} \Bigr\rfloor
+}$
+
+\underline{bei ungeradem $d$:}
+
+es werden $d-1$ Fehler erkannt
+
+\underline{bei geradem $d$:}
+
+es werden alle ungeraden Anzahlen an Fehlern erkannt
+
+\subsubsection{Fehlerwahrscheinlichkeit}
+
+\textbf{Restblockfehlerwahrscheinlichkeit}
+
+Wahrscheinlichkeit, dass von $n$ Symbolen beliebige $m$ falsch und die übrigen Symbole $n-m$ richtig sind:
+
+$\displaystyle{
+    \binom{n}{m} \cdot p^m \cdot (1 - p)^{n-m}
+}$
+
+\underline{für ungerades $d$:}
+
+alle Fehler werden entweder korrigiert, oder nicht erkannt
+
+Kann ein Code $e$ Fehler korrigieren, dann verbleibt eine Restblockfehlerwahrscheinlichkeit von:
+
+$\displaystyle{
+    P_{Block} = \sum_{m = e + 1}^{n} \binom{n}{m} \cdot p^m \cdot (1 - p)^{n-m}
+}$
+
+$\displaystyle{
+    = 1 - \sum_{m=0}^{e} \binom{n}{m} \cdot p^m \cdot (1 - p)^{n-m}
+}$
+
+$p$: Fehlerwahrscheinlichkeit vor der Decodierung\\
+$P_{Block}$: Wahrscheinlichkeit, für Symbolfehler im decodierten Block
+
+\underline{für gerades $d$:}
+
+alle ungeraden Fehler werden erkannt, da sie nicht in Korrekturkugeln liegen; können damit aber auch
+nicht korrigiert werden
+
+$\rightarrow$ für die Wahrscheinlichkeit, dass Fehler nicht erkannt werden, tragen also nur die geraden Fehleranzahlen, welche größer als $e$ sind, bei
+
+$\displaystyle{
+    P_{Block,erkennen} = \sum_{m=e+1}^{n} \binom{n}{2m} \cdot p^{2m} \cdot (1 - p)^{n-2m}
+}$
+
+$P_{Block}$ gleich wie bei gerader Anzahl
+
+\textbf{Symbolfehlerwahrscheinlichkeit}
+
+Block besteht aus $k$ Symbolen
+
+Bei gegebener Restblockfehlerwahrscheinlichkeit, gibt es eine Symbolfehlerwahrscheinlichkeit von
+
+$\displaystyle{
+    P_{Symb} = P_{S|Block} \cdot P_{Block} = \frac{2{k-1}}{2^k - 1} P_{Block}
+}$
 
 \subsection{Hamming-Codes}
 
-immer $d=3$
+immer $d=3$, damit immer $e=1$
 
 $\displaystyle{
     n = 2^h - 1
@@ -200,6 +438,88 @@ $\displaystyle{
 \end{tabular}
 
 \textbf{Konstruktion}
+
+\underline{1. Erstellung Prüfmatrix}
+
+Spalten sind Dualdarstellung der Spaltennummer
+
+$H_{n-k x n}$
+
+Beispiel: C(7, 4, 3)
+
+$\displaystyle{
+    H_{3 x 7} = \begin{pmatrix}
+        0 & 0 & 0 & 1 & 1 & 1 & 1\\
+        0 & 1 & 1 & 0 & 0 & 1 & 1\\
+        1 & 0 & 1 & 0 & 1 & 0 & 1
+    \end{pmatrix}
+}$
+
+\underline{2. Spalten tauschen, sodass hinten Einheitsmatrix}
+
+$H = [A_{n-k x k} | I_{n-k x n-k} ]$
+
+Spalte 1 mit 7\\
+2 mit 6\\
+4 mit 5
+
+$\displaystyle{
+    \rightarrow H = \begin{pmatrix}
+        1 & 1 & 0 & 1 & 1 & 0 & 0\\
+        1 & 1 & 1 & 0 & 0 & 1 & 0\\
+        1 & 0 & 1 & 1 & 0 & 0 & 1
+    \end{pmatrix} = [ A_{3 x 4} | I_{3 x 3} ]
+}$
+
+\underline{3. Generatormatrix aufstellen}
+
+$G_{k x n} = [I_{k x k} | -A^T_{k x n-k} ]$
+
+$\displaystyle{
+    G = \begin{pmatrix}
+        1 & 0 & 0 & 0 & 1 & 1 & 1\\
+        0 & 1 & 0 & 0 & 1 & 1 & 0\\
+        0 & 0 & 1 & 0 & 0 & 1 & 1\\
+        0 & 0 & 0 & 1 & 1 & 0 & 1
+    \end{pmatrix}
+}$
+
+systematisch, da Informationswort zusammenhängend im Codewort steht
+
+\underline{4. Rücktauschen der Spalten}
+
+Spalte 1 mit 7\\
+2 mit 6\\
+4 mit 5
+
+$\displaystyle{
+    G = \begin{pmatrix}
+        1 & 1 & 0 & 1 & 0 & 0 & 1\\
+        0 & 1 & 0 & 1 & 0 & 1 & 0\\
+        1 & 1 & 1 & 0 & 0 & 0 & 0\\
+        1 & 0 & 0 & 1 & 1 & 0 & 0
+    \end{pmatrix}
+}$
+
+quasi-systematisch, da Informationswort zwar im Codewort, aber nicht zusammenhängend
+
+\textbf{Fehler und Syndrom}
+
+Fehler gibt an, an welcher Stelle des Empfangsworts ein Fehler aufgetreten ist
+
+Bsp.:
+
+$\displaystyle{
+    \vec{s} = \begin{pmatrix}
+        0\\
+        1\\
+        1
+    \end{pmatrix}
+}$
+
+$\rightarrow$ Fehler an Stelle $(011)_b = 3$ im Empfangswort
+
+$\rightarrow$ da binärer Code, muss für Fehlerkorrektur das dritte bit nur invertiert werden
 
 \section{Galois-Felder}
 \label{sec:galois}
@@ -620,7 +940,7 @@ für irreduzible Polynome gilt:\\
 - ist durch kein Polynom ohne Rest teilbar\\
 - hat keine Nullstellen
 
-\textbf{aber:} Nullstellen sind wichtig für Nutzung des RS-Codes, daher \flqq Erfindung\flqq{} des
+\textbf{aber:} Nullstellen sind wichtig für Nutzung des RS-Codes, daher \frqq Erfindung\flqq{} des
 Elements $\alpha$, welches Nullstelle von $p(x)$ ist
 
 $\displaystyle{
@@ -632,7 +952,7 @@ $\displaystyle{
     p(\alpha) = \alpha^4 + \alpha + 1 = 0
 }$
 
-Analogie: \flqq Erfindung\flqq{} von $j$, sodass gilt:
+Analogie: \frqq Erfindung\flqq{} von $j$, sodass gilt:
 
 $\displaystyle{
     j^2 + 1 = 0
