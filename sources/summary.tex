@@ -82,7 +82,7 @@ Codierung eines Wortes (oder Textes) durch Zahl
 
 Endezeichen notwendig, da keine natürliche Terminierung des Codes
 
-%//TODO
+%//TODO arithmetische Codierung
 
 \subsection{Kanalmodell}
 
@@ -195,6 +195,16 @@ $\displaystyle{
 $p$: Bitfehlerwahrscheinlichkeit\\
 $C$: Kanalkapazität in Information/Symbol $[C] = Bit/Symbol$\\
 $C_S$: Kanalkapazität in Information/Zeit $[C_S] = Bit/s$\\
+$R_S$: Symbolrate $[R_S] = Symbol/s$
+
+\textbf{Informationsfluss}
+
+$\displaystyle{
+    H_S = H \cdot R_S
+}$
+
+$H_S$: Informationsfluss in Information/Zeit $[H_S] = Bit/s$\\
+$H$: Informationsgehalt pro Symbol $[H] = Bit/Symbol$\\
 $R_S$: Symbolrate $[R_S] = Symbol/s$
 
 \subsection{Shannon-Theoreme}
@@ -412,7 +422,7 @@ Block besteht aus $k$ Symbolen
 Bei gegebener Restblockfehlerwahrscheinlichkeit, gibt es eine Symbolfehlerwahrscheinlichkeit von
 
 $\displaystyle{
-    P_{Symb} = P_{S|Block} \cdot P_{Block} = \frac{2{k-1}}{2^k - 1} P_{Block}
+    P_{Symb} = P_{S|Block} \cdot P_{Block} = \frac{2^{k-1}}{2^k - 1} P_{Block}
 }$
 
 \subsection{Hamming-Codes}
@@ -602,7 +612,7 @@ $\displaystyle{
     \hookrightarrow \{ 1; 4; 3; 1 \} \rightarrow A(x) = 1x^3 + 4x^2 + 3x + 1
 }$
 
-Auswertung des Polynoms an verschiedenen Stellen von $\alpha^i$ ergibt ihre Fouriertransformierte $a(x)$
+Auswertung des Polynoms $A(x)$ an verschiedenen Stellen von $\alpha^i$ ergibt ihre Fouriertransformierte $a(x)$
 
 $\displaystyle{
     a_i = A(\alpha^i)
@@ -653,13 +663,19 @@ $\rightarrow$ Auswertung des Polynoms für verschiedene $x$ (bzw. $\alpha^i$) er
 Polynoms $a(x)$
 
 $\displaystyle{
-    a_i = A(\alpha^i) \qquad\qquad \text{IDFT}
+    a_i = A(\alpha^i) \qquad\qquad\qquad \text{\textbf{IDFT}}
 }$
 
 von diesen sind höchstens $k-1$ Null (weil $grad(A(x)) = k-1$)\\
 von diesen sind also mind. $n - (k-1)$ von Null verschieden $\rightarrow$ Mindestgewicht $d$
 
 $d = n - (k - 1) = n - k + 1$
+
+Rücktransformation des Codeworts in Informationswort:
+
+$\displaystyle{
+    A_i = n^{-1} a(\alpha^{-i}) \qquad\qquad \text{\textbf{DFT}}
+}$
 
 \subsection{Codierung}
 
@@ -680,6 +696,29 @@ $grad(g(x)) = d-1 = n-k$ = Anzahl Syndromstellen
 
 $g(x)$: Generatorpolynom\\
 $i(x)$: Informationspolynom
+
+\subsubsection{Prüfpolynom}
+
+Prüfpolynom:
+
+$\displaystyle{
+    h(x) = \prod_{i=0}^{k-1} \left(x - \alpha^{-i}\right)
+}$
+
+Produkt aus Generator- und Prüfpolynom ist 0
+
+$\displaystyle{
+    g(x) \cdot h(x) = 0
+}$
+
+und Produkt aus Codepolynom und Prüfpolynom ist 0
+
+$\displaystyle{
+    a(x) \cdot h(x) = 0
+}$
+
+genau da, wo $g(x)$ (oder $a(x)$) Nullstellen hat (also $G_i$ 0 ist) hat das Prüfpolynom $h(x)$ keine Nullstellen
+(ist also $H_i$ nicht 0) und umgekehrt
 
 \subsubsection{IDFT (nicht systematisch)}
 
@@ -718,29 +757,6 @@ $\displaystyle{
 }$
 
 $rest\left(a^*(x)\right)$: Divisionsrest
-
-\subsubsection{Über Prüfpolynom (systematisch)}
-
-Prüfpolynom:
-
-$\displaystyle{
-    h(x) = \prod_{i=0}^{k-1} \left(x - \alpha^{-i}\right)
-}$
-
-Produkt aus Generator- und Prüfpolynom ist 0
-
-$\displaystyle{
-    g(x) \cdot h(x) = 0
-}$
-
-und Produkt aus Codepolynom und Prüfpolynom ist 0
-
-$\displaystyle{
-    a(x) \cdot h(x) = 0
-}$
-
-genau da, wo $g(x)$ (oder $a(x)$) Nullstellen hat (also $G_i$ 0 ist) hat das Prüfpolynom $h(x)$ keine Nullstellen
-(ist also $H_i$ nicht 0) und umgekehrt
 
 \subsubsection{Zyklischer Code}
 
@@ -894,6 +910,12 @@ $\hookrightarrow T(x) = -r_n$
 
 \subsubsection{Forney-Algorithmus}
 
+Fehlerstellenberechnung durch Nullstellensuche in $C(x)$
+
+$\displaystyle{
+    c_i = C(\alpha^i)
+}$
+
 Fehlerwertberechnung aus gegebenem $C(x)$ und $T(x)$
 
 $\displaystyle{
@@ -902,24 +924,13 @@ $\displaystyle{
 
 $q$: Verschiebung der Syndromstellen ($q=5$, wenn Syndrom an Stelle 5)
 
-\underline{Achtung}: Fehlerwert an den Stellen, an dem \underline{keine} Fehler passiert sind, ist i.A.
+\underline{1. Hinweis}: Fehlerwert an den Stellen, an dem \underline{keine} Fehler passiert sind, ist im Allgemeinen
 \underline{nicht} 0
 
-\subsection{Kürzere Codes}
+\underline{2. Hinweis}: Ableitungsregeln beachten, Exponent der beim Ableiten als Faktor vorgezogen wird, ist Teil des
+\underline{Grundkörpers} und nicht des Erweiterungskörpers (siehe Abschnitt \ref{subsec:apendix-erweiterungskoerper})
 
-\textbf{Verkürzung}
-
-Streichen von Informationswortstellen und Codewortstellen
-
-Distanz und damit Fehlerkorrigierbarkeit bleibt gleich
-
-Code ist nicht mehr zyklisch
-
-Bsp.: Verkürzung eines $C(6, 2, 5)$ um 1 auf $C(5, 1, 5)$
-
-\textbf{Punktierung}
-
-%//TODO
+\underline{3. Hinweis}: $n$ ist auch Teil des Grundkörpers und wird deshalb auch $\mod 2$ gerechnet
 
 \section{Erweiterungskörper}
 
@@ -987,6 +998,26 @@ dazugehörige Binärdarstellung:
 
 $1000$
 
+\subsection{Kürzere Codes}
+
+\textbf{Verkürzung}
+
+Streichen von Informationswortstellen und Codewortstellen
+
+Distanz und damit Fehlerkorrigierbarkeit bleibt gleich
+
+Code ist nicht mehr zyklisch
+
+Bsp.: Verkürzung eines $C(6, 2, 5)$ um 1 auf $C(5, 1, 5)$
+
+Äquivalent zu Einfügen von Nullen an den hohen Potenzen des Informationswortes
+
+\textbf{Punktierung}
+
+Streichen bestimmter Stellen aus dem Codewortbitstrom
+
+Mindestabstand bleibt im Allgemeinen nicht erhalten
+
 \section{BCH-Codes}
 
 \subsection{Idee}
@@ -1004,7 +1035,7 @@ Nullstellen ($\rightarrow$ konjugiert komplexe Nullstellen)
 
 Ein Polynom aus konjugiert komplexen Nullstellen hat reelle (in unserem Fall binäre) Koeffizienten
 
-im Allgeimeinen sind $\alpha^{j \cdot 2^i \mod 2^m - 1}$ \;\;\;\; ($i = 0, ..., m-1$) konjugiert komplexe Nullstellen
+im Allgemeinen sind $\alpha^{j \cdot 2^i \mod 2^m - 1}$ \;\;\;\; ($i = 0, ..., m-1$) konjugiert komplexe Nullstellen
 
 $\hookrightarrow$ Kreisteilungsklassen
 
@@ -1048,7 +1079,32 @@ $n$: Anzahl Ausgänge\\
 $k$: Anzahl Eingänge\\
 $z$: Anzahl an Speicherzellen
 
-\subsection{Ein Ausgang}
+Generatormatrix gibt Verhalten des Coders vollständig an
+
+$\displaystyle{
+    G = \begin{pmatrix}
+        142\\
+        345\\
+        711
+    \end{pmatrix}_O
+}$ \;\;\;\;\;\; Zahlen in Oktaldarstellung
+
+$\displaystyle{
+    \rightarrow G = \begin{pmatrix}
+        001\,100\,010\\
+        011\,100\,101\\
+        111\,001\,001
+    \end{pmatrix}
+}$
+
+\textbf{Freie Distanz}
+
+Gewicht (Anzahl an Einsen) der Ausgangssequenz um vom Zustand \frqq 0\flqq{} wieder zurück in den Zustand \frqq 0\flqq{}
+zu kommen
+
+\subsection{Codierung}
+
+\subsubsection{Ein Ausgang}
 
 Faltungscoder ohne Redundanz
 
@@ -1061,7 +1117,7 @@ Impulsantort: $\vec{g}$
 Inhalt der Speicherzellen: $\vec{d}$
 
 Ausgang: $\displaystyle{
-    a = \vec{g} \cdot
+    a = \vec{g}^T \cdot
     \begin{pmatrix}
         i\\
         \vec{d}
@@ -1106,13 +1162,13 @@ $\displaystyle{
     = 0    
 }$
 
-\subsection{Mehrere Ausgänge}
+\subsubsection{Mehrere Ausgänge}
 
 Filter mit mehreren Ausgängen
 
-2 Impulsantorten des Filters geben 2 verschiedene Ausgänge
+$n$ Impulsantorten des Filters geben $n$ verschiedene Ausgänge
 
-Generatorsequenz wird zu Generatormatrix mit 2 Generatorsequenzen
+Generatorsequenz wird zu Generatormatrix mit $n$ Generatorsequenzen
 
 $\displaystyle{
     \vec{a} = G^T \cdot
@@ -1121,17 +1177,19 @@ $\displaystyle{
         \vec{d}
     \end{pmatrix} =
     \begin{pmatrix}
-        a_1\\
-        a_2
+        a^{(1)}\\
+        a^{(2)}
     \end{pmatrix}
 }$\;\;\;\;\;\;\;\;\;\;\;\;\;
 $\displaystyle{
-    G =
+    G^T =
     \begin{pmatrix}
         \vec{g_1}^T\\
         \vec{g_2}^T
     \end{pmatrix}
 }$
+
+Ausgangssequenz: $a = a^{(1)}_1, a^{(2)}_1, a^{(1)}_2, a^{(2)}_2, ...$
 
 \textbf{Beispiel}
 
@@ -1158,11 +1216,11 @@ $\displaystyle{
     \end{pmatrix}
 }$
 
-\subsection{Mehrere Ausgänge}
+\subsubsection{Mehrere Eingänge}
 
-Mehrere Eingänge ($i_1, i_2$) um Coderate anzupassen
+Mehrere Eingänge ($i^{(1)}, i^{(2)}$) um Coderate anzupassen
 
-für jeden Ausgang gibt es jeweils 2 Generatorsequenzen ($g_{ij}$)
+für jeden Ausgang gibt es jeweils $n$ Generatorsequenzen ($g_{ij}$)
 
 $i$: Eingang\\
 $j$: Ausgang
@@ -1236,14 +1294,72 @@ Zusamenfassung in $G$
 \subsection{Modifikationen}
 
 \textbf{Punktierung}
-%// TODO
+
+Streichen bestimmmter Stellen aus dem Codewort
+
+Punktierung über Punktierungsmatrix gegeben
+
+Bsp.: für einen Coder mit 2 Ausgängen\\
+\begin{equation*}
+    G = 
+    \begin{tikzpicture}[baseline={-0.5ex},mymatrixenv]
+        \matrix [mymatrix,inner sep=4pt] (m)  
+        {
+            1 & 0\\
+            1 & 1\\
+        };
+        % Braces
+        \mymatrixbraceleft{1}{1}{Ausgang 1}
+        \mymatrixbraceleft{2}{2}{Ausgang 2}
+    \end{tikzpicture}
+\end{equation*}
+
+Ausgangssequenz $a$ punktieren durch bitweise AND mit der Matrixssequenz $p = (1\;1\;0\;1)$:\\
+
+$a = \;\;1001\;0100\;1011\;1001\;0100$\\
+$p = \;\;1101\;1101\;1101\;1101\;1101$
+
+$a^* =  10x1\;01x0\;10x1\;10x1;01x0$
+
+$x$: gestrichene Stelle, wird nicht übertragen (wird im Trellis immer als Fehler gewertet)
 
 \textbf{Terminierung}
-%//TODO
 
-\textbf{Tail-Bitung}
-%//TODO
+Endzustand des Coders bekannt, durch Anhängen von $z$ Nullen
+
+$\hookrightarrow$ damit ist garantiert, dass im Coder am Ende nur Nullen stehen
+
+\textbf{Tail-Biting}
+
+Endzustand nach Codierung eines Informationswortes wird als Anfangszustand für eine erneute Codierung
+verwendet (bei FIR-Filtern ist eine erste Codierung nicht notwendig, da der Endzustand nur von den letzten
+$z$ Informationsbits abhängt)
+
+$\hookrightarrow$ damit ist der Anfangszustand identisch mit Endzustand
+
+$\hookrightarrow$ der Decoder decodiert und kennt mit großer Sicherheit den Anfangszustand und damit auch den
+Endzustand
 
 \subsection{Decodierung}
 
-%// TODO Trellis
+Mit Viterbi-Algorithmus
+
+Konstruktion eines Zustandsgraphen für den Coder
+
+Aus Zustandgraph wird Trellis-Diagramm erstellt
+
+\includegraphics[width=3cm]{img/zustandsgraph.PNG}
+\;\;\;\;
+\includegraphics[width=4cm]{img/trellis.PNG}
+
+gesucht: Informationsfolge, welche in den Coder geschickt wurde
+
+Metrik: Anzahl der übereinstimmenden Ausgangsbits
+
+Pfad mit höchster Übereinstimmung wird genommen
+
+\underline{Außer}:
+\begin{itemize}
+    \item bei Terminierung: Endzustand 0
+    \item bei Tail-Biting: Endzustand = Anfangszustand
+\end{itemize}

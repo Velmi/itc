@@ -53,16 +53,38 @@ gegebene Potenz als Index behandeln, passenden Wert raussuchen
 \end{tabular}
 
 \subsection{Rechnen im Erweiterungskörper}
+\label{subsec:apendix-erweiterungskoerper}
 
-Bsp.: $GF(2^4)$ mit $p(x) = x^4 + x + 1$
+alle Rechnungen am Beispiel: $GF(2^4)$ mit $p(x) = x^4 + x + 1$
 
 \textbf{Addition}
-%// TODO
+
+entweder mit Additionstabelle, oder binär stellenweise XOR rechnen (ohne Übertrag)
+
+$\displaystyle{
+    \alpha^8 + \alpha^{13} = 5 + 13 = 0101 \oplus 1101 = 1000 = 8 = \alpha^3
+}$
 
 \textbf{Multiplikation}
-%// TODO
 
-gegeben $5 \cdot 6 = (\alpha^2 + 1) \cdot (\alpha^2 + \alpha)$
+entweder mit Multiplikationstabelle, oder addieren der Exponenten
+ 
+$\displaystyle{
+    \alpha^6 \cdot \alpha^9 = \alpha^{15} = \alpha^0 = 1
+}$
+
+$\displaystyle{
+    \frac{4}{12} = \frac{\alpha^2}{\alpha^6} = \alpha^2 \cdot \alpha^{-6} = \alpha^2 \cdot \alpha^{-6} \cdot \alpha^{15} = \alpha^{11}
+}$
+
+\textbf{Ableiten}
+
+\underline{Wichtig:} Die Exponenten, welche beim Ableiten als Faktor runtergezogen werden, sind
+\underline{keine} Elemente des Erweiterungskörpers, sondern des Grundkörpers $\rightarrow \mod 2$ rechnen!
+ 
+$f(x) = x^3 + 3x^2 + 4 = \alpha^0 x + \alpha^4 x^2 + \alpha^2$
+
+$\hookrightarrow f'(x) = 3 \cdot x^2 + 2 \cdot \alpha^4 x = x^2$
 
 \subsection{Syndromstellen aus Generatorpolynom}
 
