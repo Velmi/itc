@@ -82,7 +82,34 @@ Codierung eines Wortes (oder Textes) durch Zahl
 
 Endezeichen notwendig, da keine natürliche Terminierung des Codes
 
-%//TODO arithmetische Codierung
+\textbf{Codierung}
+
+Den Symbolen wird ein Interval zwischen 0..1 (oder beliebig, z.B. zwischen 0...1024)
+
+Je größer die Wahrscheinlichkeit für Symbol, desto größer das Interval
+
+Bsp.:
+
+$P(A) = 0,5\;\;\;\; P(B) = 0,25 \;\;\;\; P(C) = 0,25$
+
+$\displaystyle{
+    \;\;\;\;\;\;\;\;\;\;\;A
+    \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;B
+    \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;C
+}$\\
+$|_{0}------|_{0,5}---|_{0,75}---|_{1}$
+
+\textbf{Decodierung}
+
+empfangen wird eine Dezimalzahl $r$ (oder eine ganze Zahl)
+
+$c_0 = r$
+
+$\displaystyle{
+    c_n = \frac{c_{n-1} \cdot low}{high - low}
+}$
+
+Decodierung bis Endezeichen kommt
 
 \subsection{Kanalmodell}
 
